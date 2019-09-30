@@ -1,0 +1,21 @@
+{
+    "name": "fastifytest",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "migrate": "node-pg-migrate"
+    },
+    "author": "Ojself",
+    "license": "ISC",
+    "dependencies": {
+        "fastify": "^2.8.0",
+        "fastify-postgres": "^2.0.0",
+        "fastify-static": "^2.5.0",
+        "install": "^0.13.0",
+        "node-pg-migrate": "^3.23.1",
+        "npm": "^6.11.3",
+        "pg": "^7.12.1"
+    }
+}
