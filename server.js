@@ -1,3 +1,6 @@
+// todo:
+// change databasename
+
 const fastify = require('fastify')({ logger: true })
 const path = require('path')
 
@@ -7,14 +10,14 @@ fastify.register(require('fastify-static'), {
 })
 
 fastify.register(require('fastify-postgres'), {
-    connectionString: 'postgres://postgres@localhost/postgres'
+    connectionString: 'postgres://postgres@localhost/insightss'
 })
 
 
 fastify.get('/user/:id', async (req, reply) => {
     const client = await fastify.pg.connect()
     const { rows } = await client.query(
-        'SELECT id, username, hash, salt FROM users WHERE id=$1', [req.params.id],
+        'INSERT INTO insightss.public.users (id) VALUES ($1)', [req.params.id],
     )
     client.release()
     return rows

@@ -7,10 +7,11 @@ exports.up = pgm => {
     pgm.createExtension('uuid-ossp', { ifNotExists: true });
 
     pgm.createTable('users', {
-        id: 'id',
+        id: { type: 'varchar(24)' },
         insights_id: {
             type: 'uuid',
-            notNull: true
+            notNull: true,
+            default: pgm.func('uuid_generate_v4()'),
         },
         createdAt: {
             type: 'timestamp',
