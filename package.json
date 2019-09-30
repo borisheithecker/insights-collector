@@ -1,5 +1,5 @@
 {
-    "name": "fastifytest",
+    "name": "insights-collector",
     "version": "1.0.0",
     "description": "",
     "main": "app.js",
@@ -7,8 +7,8 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "migrate": "node-pg-migrate"
     },
-    "author": "Ojself",
-    "license": "ISC",
+    "author": "HPI Schul-Cloud",
+    "license": "APGL",
     "dependencies": {
         "fastify": "^2.8.0",
         "fastify-postgres": "^2.0.0",

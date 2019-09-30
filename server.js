@@ -4,18 +4,14 @@
 const fastify = require('fastify')({ logger: true })
 const path = require('path')
 
-fastify.register(require('fastify-static'), {
-    root: path.join(__dirname, 'public'),
-    prefix: '/public/',
-})
-
 fastify.register(require('fastify-postgres'), {
+    // TODO: This should go in a config / env 
     connectionString: 'postgres://postgres@localhost/insightss'
 })
 
-
 fastify.get('/user/:id', async (req, reply) => {
     const client = await fastify.pg.connect()
+    // TODO: Check if we can keep a reference to the DB 
     const { rows } = await client.query(
         'INSERT INTO insightss.public.users (id) VALUES ($1)', [req.params.id],
     )
