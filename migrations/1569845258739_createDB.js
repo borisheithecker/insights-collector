@@ -1,5 +1,3 @@
-//DATABASE_URL=postgres://username:pw@url:port/databasename npm run migrate up
-
 exports.shorthands = undefined;
 
 exports.up = pgm => {
