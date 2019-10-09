@@ -16,11 +16,11 @@ fastify.post('/insights', async (req, reply) => {
     const client = await fastify.pg.connect()
     // TODO: Check if we can keep a reference to the DB 
     const result = await client.query(
-        'SELECT insights_id FROM insights.public.users WHERE id = $1', [actor.account.id],
+        'SELECT insights_id FROM users WHERE id = $1', [actor.account.id],
     )
     if(result.rowCount === 0){
         const insights_id = await client.query(
-            'INSERT INTO insights.public.users (id) VALUES ($1) RETURNING insights_id', [actor.account.id],
+            'INSERT INTO users (id) VALUES ($1) RETURNING insights_id', [actor.account.id],
         )
         req.body.actor.account.id = insights_id.rows[0].insights_id
     }else{
@@ -30,6 +30,9 @@ fastify.post('/insights', async (req, reply) => {
 
     // replace id in url with 'ID'
     req.body.object.id = idCleanup(page)
+
+    //add timestamp
+    req.body.time = new Date();
 
     // send data to insights-engine service
     rabbit
