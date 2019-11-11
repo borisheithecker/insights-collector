@@ -18,12 +18,12 @@ fastify.post('/insights', async (req, reply) => {
     const result = await client.query(
         'SELECT insights_id FROM users WHERE id = $1', [actor.account.id],
     )
-    if(result.rowCount === 0){
+    if (result.rowCount === 0) {
         const insights_id = await client.query(
             'INSERT INTO users (id) VALUES ($1) RETURNING insights_id', [actor.account.id],
         )
         req.body.actor.account.id = insights_id.rows[0].insights_id
-    }else{
+    } else {
         req.body.actor.account.id = result.rows[0].insights_id
     }
     client.release()
@@ -36,13 +36,13 @@ fastify.post('/insights', async (req, reply) => {
 
     // send data to insights-engine service
     rabbit
-    .publish('insights', req.body)
-    .then(() => console.log('message will be published'));
+        .publish('insights', req.body)
+        .then(() => console.log('message will be published'));
 
     return { status: 'ok' }
 })
 
-fastify.options("/*", function(req, res, next){
+fastify.options("/*", function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*')
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With')
@@ -51,11 +51,11 @@ fastify.options("/*", function(req, res, next){
 
 // everything rabbitMQ
 const rabbit = new Rabbit(process.env.RABBIT_URL || 'amqp://localhost', {
-  prefetch: 1, // default prefetch from queue
-  replyPattern: true, // if reply pattern is enabled an exclusive queue is created
-  scheduledPublish: false,
-  prefix: '', // prefix all queues with an application name
-  socketOptions: {} // socketOptions will be passed as a second param to amqp.connect and from ther to the socket library (net or tls)
+    prefetch: 1, // default prefetch from queue
+    replyPattern: true, // if reply pattern is enabled an exclusive queue is created
+    scheduledPublish: false,
+    prefix: '', // prefix all queues with an application name
+    socketOptions: {} // socketOptions will be passed as a second param to amqp.connect and from ther to the socket library (net or tls)
 });
 
 /**
@@ -63,17 +63,17 @@ const rabbit = new Rabbit(process.env.RABBIT_URL || 'amqp://localhost', {
  * may result in false positives if url slugs have a length of 24 characters
  * @param {string} url 
  */
-function idCleanup(url){
+function idCleanup(url) {
     const match = /\/[0-9a-f]{24}/g;
-    if(url.match(match)){
-        return url.replace(match,'/ID')
+    if (url.match(match)) {
+        return url.replace(match, '/ID')
     }
     return url;
 }
 
 const start = async () => {
     try {
-        await fastify.listen(process.env.PORT)
+        await fastify.listen(process.env.PORT, process.env.HOST)
         fastify.log.info(`server listening on ${fastify.server.address().port}`)
     } catch (err) {
         fastify.log.error(err)
