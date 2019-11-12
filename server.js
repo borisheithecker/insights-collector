@@ -80,4 +80,9 @@ const start = async () => {
         process.exit(1)
     }
 }
+rabbit.on('disconnected', (err = new Error('Rabbitmq Disconnected')) => {
+// handle disconnections and try to reconnect
+console.error(err);
+setTimeout(() => rabbit.reconnect(), 5000);
+});
 start()
