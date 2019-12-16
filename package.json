@@ -6,7 +6,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "migrate": "node-pg-migrate",
-        "start": "node server.js"
+        "start": "npm run migrate up && node server.js"
     },
     "author": "HPI Schul-Cloud",
     "license": "APGL",
@@ -17,7 +17,6 @@
         "fastify-static": "^2.5.0",
         "install": "^0.13.0",
         "node-pg-migrate": "^3.23.1",
-        "npm": "^6.11.3",
         "pg": "^7.12.1",
         "rabbit-queue": "^4.2.1"
     }
